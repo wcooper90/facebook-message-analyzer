@@ -10,14 +10,14 @@ MESSAGE_THRESHOLD = 100
 
 def get_json_data(chat):
     try:
-        json_location = CURRENT_DIRECTORY + "/messages/" + chat + "/message.json"
+        json_location = CURRENT_DIRECTORY + "/messages/inbox/" + chat + "/message.json"
         with open(json_location) as json_file:
             json_data = json.load(json_file)
             return json_data
     except IOError:
         pass # some things the directory aren't messages (DS_Store, stickers_used, etc.)
 
-chats = os.listdir(CURRENT_DIRECTORY + "/messages")[:NUMBER_TO_ANALYZE]
+chats = os.listdir(CURRENT_DIRECTORY + "/messages/inbox")[:NUMBER_TO_ANALYZE]
 sorted_chats = []
 final_data_messages = {}
 final_data_times = {}
