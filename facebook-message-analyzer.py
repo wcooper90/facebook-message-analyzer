@@ -1,3 +1,18 @@
+
+# coding: utf-8
+
+# # Facebook Message Analyzer
+
+# <b> Current Features For a Given Chat: </b>
+# <ul> 
+#     <li> Number of Messages Sent </li> 
+#     <li> Messages Sent Over Time </li> 
+#     <li> Average Word Count </li>
+# </ul>
+
+# In[5]:
+
+
 import os
 import json
 import numpy as np
@@ -5,37 +20,56 @@ import pylab as pl
 import datetime
 
 CURRENT_DIRECTORY = os.getcwd()
-NUMBER_TO_ANALYZE = 10000
-MESSAGE_THRESHOLD = 100
+NUMBER_TO_ANALYZE = 5000
+MESSAGE_THRESHOLD = 10
+MESSAGE_BOUND = 1000
+
+
+# In[6]:
+
 
 def get_json_data(chat):
     try:
-        json_location = CURRENT_DIRECTORY + "/messages/inbox/" + chat + "/message.json"
+        json_location = CURRENT_DIRECTORY + "/messages/" + chat + "/message.json"
         with open(json_location) as json_file:
             json_data = json.load(json_file)
             return json_data
     except IOError:
         pass # some things the directory aren't messages (DS_Store, stickers_used, etc.)
 
-chats = os.listdir(CURRENT_DIRECTORY + "/messages/inbox")[:NUMBER_TO_ANALYZE]
+
+# In[7]:
+
+
+chats = os.listdir(CURRENT_DIRECTORY + "/messages/")[:NUMBER_TO_ANALYZE]
 sorted_chats = []
 final_data_messages = {}
 final_data_times = {}
 final_data_words = {}
 invalid_message_count = 0
 
+
+# In[9]:
+
+
 print('Analyzing ' + str(min(NUMBER_TO_ANALYZE, len(chats))) + ' chats...')
 
 for chat in chats:
+    url = chat + '/message.json'
     json_data = get_json_data(chat)
+    print(chat)
     if json_data != None:
         messages = json_data["messages"]
-        if len(messages) >= MESSAGE_THRESHOLD:
+        if len(messages) >= MESSAGE_THRESHOLD and len(messages) <= MESSAGE_BOUND:
             sorted_chats.append((len(messages), chat, messages))
 
 sorted_chats.sort(reverse=True)
 
 print('Finished processing chats...')
+
+
+# In[10]:
+
 
 for i, (messages, chat, messages) in enumerate(sorted_chats):
     number_messages = {}
@@ -61,13 +95,17 @@ for i, (messages, chat, messages) in enumerate(sorted_chats):
         except KeyError:
             # happens for special cases like users who deactivated, unfriended, blocked
             invalid_message_count += 1
-    
+
     final_data_messages[i] = number_messages
     final_data_times[i] = person_to_times
     final_data_words[i] = number_words
 
 print('Found ' + str(invalid_message_count) + ' invalid messages...')
 print('Found ' + str(len(sorted_chats)) + ' chats with ' + str(MESSAGE_THRESHOLD) + ' messages or more')
+
+
+# In[12]:
+
 
 def plot_num_messages(chat_number):
     plotted_data = final_data_messages[chat_number]
@@ -77,7 +115,7 @@ def plot_num_messages(chat_number):
     pl.title('Number of Messages Sent')
     pl.tight_layout()
     pl.show()
-
+    
 def plot_histogram_time(chat_number):
     person_to_times = final_data_times[chat_number]
     pl.xlabel('Time')
@@ -103,10 +141,15 @@ def plot_histogram_words(chat_number):
     pl.title('Average Word Count')
     pl.tight_layout()
     pl.show()
-
+    
 def plot(chat_number):
     plot_num_messages(chat_number)
     plot_histogram_time(chat_number)
     plot_histogram_words(chat_number)
 
-plot(4)
+
+# In[ ]:
+
+
+plot(0)
+
