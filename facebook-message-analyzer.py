@@ -4,9 +4,9 @@
 # # Facebook Message Analyzer
 
 # <b> Current Features For a Given Chat: </b>
-# <ul> 
-#     <li> Number of Messages Sent </li> 
-#     <li> Messages Sent Over Time </li> 
+# <ul>
+#     <li> Number of Messages Sent </li>
+#     <li> Messages Sent Over Time </li>
 #     <li> Average Word Count </li>
 # </ul>
 
@@ -24,7 +24,7 @@ NUMBER_TO_ANALYZE = 5000
 MESSAGE_THRESHOLD = 10
 MESSAGE_BOUND = 1000
 
-
+kojihugyftdrsxuihugyftfyguhgyfdzf
 # In[6]:
 
 
@@ -115,7 +115,7 @@ def plot_num_messages(chat_number):
     pl.title('Number of Messages Sent')
     pl.tight_layout()
     pl.show()
-    
+
 def plot_histogram_time(chat_number):
     person_to_times = final_data_times[chat_number]
     pl.xlabel('Time')
@@ -141,7 +141,7 @@ def plot_histogram_words(chat_number):
     pl.title('Average Word Count')
     pl.tight_layout()
     pl.show()
-    
+
 def plot(chat_number):
     plot_num_messages(chat_number)
     plot_histogram_time(chat_number)
@@ -152,4 +152,3 @@ def plot(chat_number):
 
 
 plot(0)
-
